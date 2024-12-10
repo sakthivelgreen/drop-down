@@ -5,12 +5,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Drop-Down</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" />
+    <link rel="stylesheet" href="https://poseidon-code.github.io/supacons/dist/supacons.all.css" />
     <link rel="stylesheet" href="style.css">
     <script src="script.js" type="module" defer></script>
 </head>
 
 <body>
-
+    <div class="wrapper">
+        <div class="container">
+            <div class="outer">
+                <h3>Select Users</h3>
+                <div class="select-input_div">
+                    <input type="text" id="drop-down" aria-label="drop-down" />
+                    <i class="fa-sharp fa-solid fa-angles-up-down right-ico"></i>
+                </div>
+                <div class="users-list-container">
+                    <div class="users-list">
+                        <div class="search-container">
+                            <input type="search" id="search">
+                        </div>
+                        <ul class="users-list-ul"></ul>
+                        <div class="cta-btns">
+                            <span class="left">
+                                <button type="button" id="cancel-btn">Cancel</button>
+                            </span>
+                            <span class="right">
+                                <button type="button" id="clear-all">Clear All</button>
+                                <button type="button" id="add-users">Done</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
