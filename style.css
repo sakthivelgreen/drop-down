@@ -208,9 +208,6 @@ body {
     border-radius: 50%;
 }
 
-.cta-btns {
-    height: 40px;
-}
 
 ::-webkit-scrollbar {
     width: 5px;
@@ -219,4 +216,57 @@ body {
 ::-webkit-scrollbar-thumb {
     background: var(--accent-color-2);
     border-radius: 20px;
+}
+
+.cta-btns {
+    margin-top: 5px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 20px;
+    border-top: 1.5px solid var(--accent-color-2);
+}
+
+.cta-btns button {
+    all: unset;
+    padding: 3px 10px;
+    border: 1px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+    font-family: "Poppins", serif;
+}
+
+#cancel-btn {
+    color: #da1e28;
+    border-color: #da1e28;
+    transition: background-color 0.5s ease;
+}
+
+#cancel-btn:hover {
+    color: #fff;
+    background-color: #da1e28;
+}
+
+#add-users {
+    color: #198038;
+    border-color: #198038;
+    transition: background-color 0.5s ease;
+}
+
+#add-users:hover {
+    color: #fff;
+    background-color: #198038;
+}
+
+#clear-all {
+    color: #878d96;
+    border-color: #878d96;
+    transition: background-color 0.5s ease;
+}
+
+#clear-all:hover {
+    color: #fff;
+    background-color: #878d96;
 }
