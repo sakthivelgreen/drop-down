@@ -104,21 +104,54 @@ body {
     border-color: var(--accent-color-1);
 }
 
+.no-records {
+    display: none;
+}
+
+.no-records.active {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #da1e28;
+}
+
+#user-count {
+    /* height: 20px; */
+    /* width: 40px; */
+    padding: 5px 10px;
+    background-color: var(--accent-color-1);
+    position: absolute;
+    right: 40px;
+    border-radius: 25px;
+    visibility: hidden;
+    font-size: 11px;
+    color: var(--background-color-white);
+    transform: scale(0.8);
+}
+
+#user-count.show {
+    visibility: visible;
+}
+
 .users-list-container {
     position: absolute;
-    top: 70px;
+    top: 75px;
     left: 0;
     border: 1.5px solid var(--accent-color-2);
     border-radius: 5px;
     background-color: var(--container-background);
     width: 100%;
     transform: scaleY(0);
+    opacity: 0;
     transform-origin: top;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, opacity 1s ease;
 }
 
 .users-list-container.show {
     transform: scaleY(1);
+    opacity: 1;
 }
 
 .users-list-ul {
@@ -130,11 +163,10 @@ body {
 .search-container {
     width: 100%;
     height: 40px;
-    border: 1px solid var(--accent-color-2);
+    border-bottom: 1px solid var(--accent-color-2);
     position: relative;
     display: flex;
     align-items: center;
-    border-radius: 5px;
 }
 
 .search-container .icon {
@@ -152,13 +184,18 @@ body {
     padding: 0px 35px;
 }
 
+input[type="search"]::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    appearance: none;
+}
+
 .users-list-ul li {
     height: 40px;
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 15px;
-    border: 1px solid var(--accent-color-2);
+    border-bottom: 1px solid var(--accent-color-2);
     padding-left: 15px;
 }
 
@@ -210,13 +247,9 @@ body {
 
 
 ::-webkit-scrollbar {
-    width: 5px;
+    width: 0px;
 }
 
-::-webkit-scrollbar-thumb {
-    background: var(--accent-color-2);
-    border-radius: 20px;
-}
 
 .cta-btns {
     margin-top: 5px;
@@ -224,8 +257,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0px 20px;
-    border-top: 1.5px solid var(--accent-color-2);
+    padding: 0px 10px;
 }
 
 .cta-btns button {
