@@ -62,10 +62,14 @@ function main() { // Script logics starts here;
 }
 
 function Events() {
-    _var.drop_down_input().addEventListener('focus', () => {
-        document.querySelector('.select-input_div').classList.add('active');
-        document.querySelector('.users-list').classList.add('show')
-        document.querySelector('.cta-btns').style.display = 'block';
+    _var.select_div().addEventListener('click', (event) => {
+        if (_var.select_div().classList.contains('show')) {
+            document.querySelector('.users-list-container').classList.remove('show');
+            _var.select_div().classList.remove('show');
+        } else {
+            document.querySelector('.users-list-container').classList.add('show');
+            _var.select_div().classList.add('show');
+        }
     })
 }
 function appendData() {
