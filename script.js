@@ -64,11 +64,13 @@ function main() { // Script logics starts here;
 function Events() {
     // Event drop down box
     _var.select_div().addEventListener('click', (event) => {
-        document.querySelector('.users-list-container').classList.add('show');
-        _var.select_div().classList.add('show');
-        display_user_header()
-        handle_checkboxes();
-        handle_buttons();
+        if (!_var.select_div().classList.contains('show')) {
+            document.querySelector('.users-list-container').classList.add('show');
+            _var.select_div().classList.add('show');
+            display_user_header()
+            handle_checkboxes();
+            handle_buttons();
+        }
     })
 
     // Event Search
@@ -89,7 +91,8 @@ function Events() {
         if (e.target.classList.contains('delete-icon')) {
             e.stopPropagation();
             let element = e.target.closest('span');
-            final_array = final_array.filter(id => id !== element.id);
+            let id = element.id.split('_')[1]
+            final_array = final_array.filter(item_id => item_id !== id);
             temporary_array = [...final_array];
             element.remove();
             display_user_header();
@@ -144,8 +147,10 @@ function handle_checkboxes() {
     if (final_array.length > 0) {
         temporary_array = [...final_array];
     }
-    _var.selected_checkboxes().forEach(item => item.checked = false); // Uncheck all
-    temporary_array.forEach(item => {
+
+    _var.all_checkboxes().forEach((value) => value.checked = false)
+
+    temporary_array.forEach((item) => {
         const checkbox = document.querySelector(`#${CSS.escape(item)}`);
         if (checkbox) {
             checkbox.checked = true;
@@ -158,14 +163,10 @@ function handle_checkboxes() {
 // for Done button
 function handle_save(event) {
     if (temporary_array.length > 0) {
-        final_array = temporary_array;
+        final_array = [...temporary_array];
         document.querySelector('.users-list-container').classList.remove('show');
         _var.select_div().classList.remove('show');
         display_user_header();
-    } else {
-        alert('No users selected!');
-        document.querySelector('.users-list-container').classList.remove('show');
-        _var.select_div().classList.remove('show');
     }
 }
 function display_user_header() {
@@ -176,7 +177,7 @@ function display_user_header() {
         let html = '';
         display_data.forEach((item, index) => {
             if (index < 2) {
-                html += `<span id='${item.id}' class="selected-users">${item.Name} <i class="delete-icon fa-solid fa-xmark"></i></span>`;
+                html += `<span id='U_${item.id}' class="selected-users">${item.Name} <i class="delete-icon fa-solid fa-xmark"></i></span>`;
             }
         })
         _var.drop_down_input().innerHTML = html;
