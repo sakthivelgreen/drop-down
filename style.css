@@ -186,10 +186,10 @@ body {
     padding: 0px 35px;
 }
 
-input[type="search"]::-webkit-search-cancel-button {
+/* input[type="search"]::-webkit-search-cancel-button {
     -webkit-appearance: none;
     appearance: none;
-}
+} */
 
 .users-list-ul li {
     height: 40px;
@@ -295,14 +295,14 @@ input[type="search"]::-webkit-search-cancel-button {
 }
 
 #clear-all {
-    color: #878d96;
-    border-color: #878d96;
+    color: #33b1ff;
+    border-color: #33b1ff;
     transition: background-color 0.5s ease;
 }
 
 #clear-all:hover:not(:disabled) {
     color: #fff;
-    background-color: #878d96;
+    background-color: #33b1ff;
 }
 
 .cta-btns button:disabled {

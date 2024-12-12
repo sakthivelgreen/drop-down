@@ -135,7 +135,7 @@ function checkBox_Event(e) {
 }
 function handle_header() {
     _var.user_count().classList.remove('show');
-    if (temporary_array.length > 2) {
+    if (temporary_array.length > 0) {
         _var.drop_down_input().textContent = `${temporary_array.length} users selected`;
     } else {
         _var.drop_down_input().textContent = 'Select Users';
@@ -167,6 +167,11 @@ function handle_save(event) {
         document.querySelector('.users-list-container').classList.remove('show');
         _var.select_div().classList.remove('show');
         display_user_header();
+        event.target.disabled = true;
+    } else {
+        document.querySelector('.users-list-container').classList.remove('show');
+        _var.select_div().classList.remove('show');
+        final_array = [];
     }
 }
 function display_user_header() {
@@ -219,13 +224,20 @@ function handle_buttons() {
         _var.clear_all_btn().title = '';
         _var.add_users_btn().disabled = false;
         _var.add_users_btn().title = "";
-
     } else {
         _var.clear_all_btn().disabled = true;
         _var.clear_all_btn().title = 'No items to clear';
         _var.add_users_btn().disabled = true;
         _var.add_users_btn().title = "Select at least 1 user";
     }
+    if (temporary_array.length === 0) _var.add_users_btn().disabled = false;
+    if (temporary_array.length > 0 && final_array.length > 0) {
+        let status = arraysEqual(temporary_array, final_array)
+        status ? _var.add_users_btn().disabled = true : _var.add_users_btn().disabled = false;
+    }
+}
+function arraysEqual(arr1, arr2) {
+    return arr1.length === arr2.length && new Set(arr1).size === new Set(arr2).size;
 }
 
 
