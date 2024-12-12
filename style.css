@@ -72,7 +72,7 @@ body {
 
 .right-ico {
     position: absolute;
-    right: 15px;
+    right: 10px;
     top: 50%;
     transform: translateY(-50%);
 }
@@ -183,13 +183,14 @@ body {
     box-sizing: border-box;
     height: 100%;
     width: 100%;
-    padding: 0px 35px;
+    padding: 0px 15px 0px 35px;
 }
 
-/* input[type="search"]::-webkit-search-cancel-button {
-    -webkit-appearance: none;
-    appearance: none;
-} */
+input[type="search"]::-webkit-search-cancel-button {
+    transform: scale(1.2);
+    cursor: pointer;
+    color: var(--text-color);
+}
 
 .users-list-ul li {
     height: 40px;
@@ -198,7 +199,7 @@ body {
     align-items: center;
     gap: 15px;
     border-bottom: 1px solid var(--accent-color-2);
-    padding-left: 15px;
+    padding-left: 10px;
 }
 
 .users-list-ul li .users-list__span {
@@ -254,12 +255,11 @@ body {
 
 
 .cta-btns {
-    margin-top: 5px;
     height: 40px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0px 10px;
+    padding: 5px 10px;
 }
 
 .cta-btns button {

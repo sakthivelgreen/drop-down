@@ -261,5 +261,7 @@ function handle_search(event) {
         })
     } else {
         all_list_items.forEach(item => item.style.display = 'flex');
+        document.querySelector('.no-records').textContent = '';
+        document.querySelector('.no-records').classList.remove('active');
     }
 }
