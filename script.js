@@ -52,8 +52,8 @@ const data = [
         imgSrc: './static/profile.jpg'
     }
 ]
-let checked_items_Array = [];
-
+let temporary_array = [];
+let final_array = [];
 main() // Function call
 
 function main() { // Script logics starts here;
@@ -62,31 +62,40 @@ function main() { // Script logics starts here;
 }
 
 function Events() {
+    // Event drop down box
     _var.select_div().addEventListener('click', (event) => {
-        if (_var.select_div().classList.contains('show')) {
-            document.querySelector('.users-list-container').classList.remove('show');
-            _var.select_div().classList.remove('show');
-        } else {
-            document.querySelector('.users-list-container').classList.add('show');
-            _var.select_div().classList.add('show');
-        }
+        document.querySelector('.users-list-container').classList.add('show');
+        _var.select_div().classList.add('show');
+        display_user_header()
+        handle_checkboxes();
+        handle_buttons();
     })
 
+    // Event Search
     _var.search_input().addEventListener('input', handle_search);
 
+    // Event for All Checkboxes
     _var.all_checkboxes().forEach(item => {
-        item.addEventListener('change', (e) => {
-            if (e.target.checked) {
-                e.target.classList.add('item_checked');
-                checked_items_Array.push(e.target.id);
-            } else {
-                e.target.classList.remove('item_checked')
-                checked_items_Array = checked_items_Array.filter(item => item != e.target.id)
-            }
-            handle_header()
-        })
+        item.addEventListener('change', checkBox_Event)
     })
-    _var.add_users_btn().addEventListener('click', handleSave)
+
+    // Button Click Events
+    _var.add_users_btn().addEventListener('click', handle_save);
+    _var.clear_all_btn().addEventListener('click', handle_clear);
+    _var.cancel_btn().addEventListener('click', handle_cancel);
+
+    // delete using icon
+    _var.drop_down_input().addEventListener("click", (e) => {
+        if (e.target.classList.contains('delete-icon')) {
+            e.stopPropagation();
+            let element = e.target.closest('span');
+            final_array = final_array.filter(id => id !== element.id);
+            temporary_array = [...final_array];
+            element.remove();
+            display_user_header();
+            handle_checkboxes()
+        }
+    });
 }
 
 
@@ -105,27 +114,121 @@ function appendData() {
     list_UL.innerHTML = html;
 }
 
+function checkBox_Event(e) {
+    let target_Variable = e.target;
+    e.preventDefault();
+    if (target_Variable.checked) {
+        target_Variable.classList.add('item_checked');
+        if (!(temporary_array.includes(target_Variable.id))) {
+            temporary_array.push(target_Variable.id);
+        }
+    } else {
+        target_Variable.classList.remove('item_checked')
+        temporary_array = temporary_array.filter(item => item != target_Variable.id)
+    }
+    if (!(temporary_array.length <= 5)) { target_Variable.checked = false; temporary_array.pop(); alert('Max User Limit: 5') }
+    handle_buttons();
+    handle_header();
+}
 function handle_header() {
-    if (_var.selected_checkboxes().length > 2) {
-        _var.drop_down_input().textContent = `${_var.selected_checkboxes().length} users selected`;
+    _var.user_count().classList.remove('show');
+    if (temporary_array.length > 2) {
+        _var.drop_down_input().textContent = `${temporary_array.length} users selected`;
     } else {
         _var.drop_down_input().textContent = 'Select Users';
-        // _var.user_count().classList.remove('show');
-        // _var.user_count().textContent = ``;
     }
-    if (!(_var.selected_checkboxes().length <= 5)) alert('Maximum 5 Users Only')
 }
 
-function handleSave(event) {
-    if (_var.selected_checkboxes().length > 0) {
-        if (_var.selected_checkboxes().length > 2) {
-            _var.user_count().classList.add('show');
-            _var.user_count().textContent = `+ ${_var.selected_checkboxes().length - 2} more`;
+// for checkboxes
+function handle_checkboxes() {
+    if (final_array.length > 0) {
+        temporary_array = [...final_array];
+    }
+    _var.selected_checkboxes().forEach(item => item.checked = false); // Uncheck all
+    temporary_array.forEach(item => {
+        const checkbox = document.querySelector(`#${CSS.escape(item)}`);
+        if (checkbox) {
+            checkbox.checked = true;
+        } else {
+            console.warn(`Checkbox with id ${item} not found`);
         }
+    });
+}
 
+// for Done button
+function handle_save(event) {
+    if (temporary_array.length > 0) {
+        final_array = temporary_array;
+        document.querySelector('.users-list-container').classList.remove('show');
+        _var.select_div().classList.remove('show');
+        display_user_header();
+    } else {
+        alert('No users selected!');
+        document.querySelector('.users-list-container').classList.remove('show');
+        _var.select_div().classList.remove('show');
+    }
+}
+function display_user_header() {
+    show_hide_count()
+    if (final_array.length > 0) {
+        _var.drop_down_input().textContent = '';
+        let display_data = data.filter(item => final_array.includes(String(item.id)));
+        let html = '';
+        display_data.forEach((item, index) => {
+            if (index < 2) {
+                html += `<span id='${item.id}' class="selected-users">${item.Name} <i class="delete-icon fa-solid fa-xmark"></i></span>`;
+            }
+        })
+        _var.drop_down_input().innerHTML = html;
+    } else {
+        handle_header()
+    }
+}
+// for Clear all button
+function handle_clear(event) {
+    temporary_array = [];
+    _var.selected_checkboxes().forEach(item => item.checked = false);
+    _var.drop_down_input().textContent = 'Select Users';
+    _var.user_count().classList.remove('show');
+    handle_buttons();
+}
+
+// for Cancel Button
+function handle_cancel(event) {
+    document.querySelector('.users-list-container').classList.remove('show');
+    _var.select_div().classList.remove('show');
+    handle_checkboxes();
+    display_user_header();
+}
+
+// for Count in header
+function show_hide_count() {
+    if (temporary_array.length > 2) {
+        _var.user_count().classList.add('show');
+        _var.user_count().textContent = `+ ${temporary_array.length - 2} more`;
+    } else {
+        _var.user_count().classList.remove('show');
+        _var.user_count().textContent = ``;
+    }
+}
+// for Buttons Enable and disable
+function handle_buttons() {
+    if (temporary_array.length > 0) {
+        _var.clear_all_btn().disabled = false;
+        _var.clear_all_btn().title = '';
+        _var.add_users_btn().disabled = false;
+        _var.add_users_btn().title = "";
+
+    } else {
+        _var.clear_all_btn().disabled = true;
+        _var.clear_all_btn().title = 'No items to clear';
+        _var.add_users_btn().disabled = true;
+        _var.add_users_btn().title = "Select at least 1 user";
     }
 }
 
+
+// for search
 function handle_search(event) {
     let search_key;
     let all_list_items = document.querySelectorAll('li');
